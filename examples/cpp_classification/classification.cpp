@@ -252,7 +252,7 @@ int main(int argc, char** argv) {
   std::vector<Prediction> predictions = classifier.Classify(img);
 
   /* Print the top N predictions. */
-  for (size_t i = 0; i < 3; ++i) {
+  for (size_t i = 0; i < predictions.size(); ++i) {
     Prediction p = predictions[i];
     std::cout << std::fixed << std::setprecision(4) << p.second << " - \""
               << p.first << "\"" << std::endl;
