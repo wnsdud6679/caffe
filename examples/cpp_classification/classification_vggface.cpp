@@ -40,7 +40,10 @@ class Classifier {
     private:
         shared_ptr<Net<float> > net_;
         cv::Size input_geometry_;
+<<<<<<< HEAD
         cv::Mat avgimg;
+=======
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
         int num_channels_;
 };
 
@@ -52,7 +55,11 @@ Classifier::Classifier(const string& model_file, const string& trained_file) {
     net_->CopyTrainedLayersFrom(trained_file);
 
     //CHECK_EQ(net_->num_inputs(),1)<<"Network should have exactly one input.";
+<<<<<<< HEAD
     //CHECK_EQ(net_->num_outputs(),1)<<"Network should have exactly one output.";f
+=======
+    //CHECK_EQ(net_->num_outputs(),1)<<"Network should have exactly one output.";
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
 
     Blob<float>* input_layer = net_->input_blobs()[0];
     num_channels_ = input_layer->channels();
@@ -62,7 +69,10 @@ Classifier::Classifier(const string& model_file, const string& trained_file) {
 
     /* Load the binaryproto mean file. */
     //SetMean(mean_file);
+<<<<<<< HEAD
     avgimg = cv::Mat( input_geometry_, CV_32FC3, cv::Scalar(93.5940,104.7624,129.1863));
+=======
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
 }
 
 std::vector<float> Classifier::Predict(const cv::Mat& img) {
@@ -76,8 +86,11 @@ std::vector<float> Classifier::Predict(const cv::Mat& img) {
     WrapInputLayer(&input_channels);
     Preprocess(img, &input_channels); //convert img to caffe input
 
+<<<<<<< HEAD
     net_->Forward();
 
+=======
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
     /* Copy the output layer to std::vector */
     shared_ptr< Blob<float> > output_layer = net_-> blob_by_name("fc8");
     const float* begin = output_layer->cpu_data();
@@ -110,13 +123,23 @@ void Classifier::Preprocess(const cv::Mat& img, std::vector<cv::Mat>* input_chan
     else
         sample_resized.convertTo(sample_float, CV_32FC1);
 
+<<<<<<< HEAD
     cv::Mat sample_normalized;
     cv::subtract(sample_resized, avgimg, sample_normalized);
+=======
+    //cv::Mat sample_normalized;
+    //cv::Mat avgimg(img.rows, img.cols, CV_32FC3, cv::Scalar(93.5940,104.7624,129.1863));
+    //cv::subtract(sample_float, avgimg, sample_normalized);
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
 
     /* This operation will write the separate BGR planes directly to the
      * input layer of the network because it is wrapped by the cv::Mat
      * objects in input_channels. */
+<<<<<<< HEAD
     cv::split(sample_normalized, *input_channels);
+=======
+    cv::split(sample_float, *input_channels);
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
 
     CHECK(reinterpret_cast<float*>(input_channels->at(0).data) == net_->input_blobs()[0]->cpu_data())
         << "Input channels are not wrapping the input layer of the network. ";
@@ -157,8 +180,19 @@ int main(int argc, char** argv) {
 
     // load target image
     cv::Mat target_image = cv::imread(targetname, -1);
+<<<<<<< HEAD
     
     std::vector<float> target_output = classifier.Predict(target_image);
+=======
+    cv::Mat target_float;
+    target_image.convertTo(target_float, CV_32FC3);
+
+    //cv::Mat target_normalized;
+    //cv::Mat avgimg(target_image.rows, target_image.cols, CV_32FC3, cv::Scalar(93.5940,104.7624,129.1863));
+    //cv::subtract(target_float, avgimg, target_normalized);
+
+    std::vector<float> target_output = classifier.Predict(target_float);
+>>>>>>> 73d0207b3cd43e43a35d97350dadc086f5b4d08b
 
     // Feature Extraction for target file
 

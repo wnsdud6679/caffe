@@ -246,8 +246,8 @@ int main(int argc, char** argv) {
             << file << " ----------" << std::endl;
 
   cv::Mat img = cv::imread(file, -1);
- // cv::Mat imginv;
- // cv::bitwise_not(img,imginv)
+  //cv::Mat imginv;
+  //cv::bitwise_not(img,imginv)
   CHECK(!img.empty()) << "Unable to decode image " << file;
   std::vector<Prediction> predictions = classifier.Classify(img);
 
